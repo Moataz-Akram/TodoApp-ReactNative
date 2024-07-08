@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import MainScreen from './screens/MainScreen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -31,7 +32,7 @@ function App(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
-      <Text>Hello wolrd</Text>
+      <MainScreen />
     </View>
   );
 }
