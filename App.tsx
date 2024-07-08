@@ -8,6 +8,7 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   StatusBar,
   StyleSheet, //
@@ -18,10 +19,8 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import MainScreen from './screens/MainScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import {Provider} from 'react-redux';
+import {todoStore} from './store/store';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -31,9 +30,11 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <View style={styles.container}>
-      <MainScreen />
-    </View>
+    <Provider store={todoStore}>
+      <View style={styles.container}>
+        <MainScreen />
+      </View>
+    </Provider>
   );
 }
 
