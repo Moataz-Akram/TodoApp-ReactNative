@@ -5,7 +5,6 @@ import TodoItem from './TodoItem';
 
 function TodoList() {
   const todos = useSelector((state: RootState) => state.todosReducer).todos;
-  console.log(todos);
 
   return (
     <FlatList
