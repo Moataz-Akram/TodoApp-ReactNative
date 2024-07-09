@@ -17,13 +17,20 @@ const todosSlice = createSlice({
       state.todos.push(action.payload);
     },
     removeTodo: (state, action: PayloadAction<number>) => {
-      // remove action
-      state.todos.filter(todo => todo.id !== action.payload);
+      state.todos = state.todos.filter(todo => todo.id !== action.payload);
     },
-    // add reducers
+    updateTodo: (state, action: PayloadAction<Todo>) => {
+      const index = state.todos.findIndex(
+        todo => todo.id === action.payload.id,
+      );
+
+      if (index !== -1) {
+        state.todos[index] = action.payload;
+      }
+    },
   },
 });
 
 export default todosSlice.reducer;
 
-export const {addTodo} = todosSlice.actions;
+export const {addTodo, removeTodo, updateTodo} = todosSlice.actions;
