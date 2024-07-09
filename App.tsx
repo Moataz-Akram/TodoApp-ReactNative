@@ -17,7 +17,7 @@ import {Provider} from 'react-redux';
 import {todoStore} from './store/store';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import TodoForm from './components/TodoForm';
+import TodoForm from './screens/TodoForm';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,8 +31,18 @@ function App(): React.JSX.Element {
   return (
     <Provider store={todoStore}>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen component={MainScreen} name="Main Screen" />
+        <Stack.Navigator
+        // screenOptions={{
+        //   headerRight: () => {
+        //     return <Button title="add item" />;
+        //   },
+        // }}
+        >
+          <Stack.Screen
+            component={MainScreen}
+            name="Main Screen"
+            options={{title: 'Todo List'}}
+          />
           <Stack.Screen component={TodoForm} name="Todo" />
         </Stack.Navigator>
       </NavigationContainer>

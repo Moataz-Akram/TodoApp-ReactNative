@@ -5,10 +5,6 @@ import {createTodo, Todo} from '../model/Todo';
 import {addTodo, removeTodo, updateTodo} from '../model/TodoState';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
-interface TodoFormProps {
-  isEditing: boolean;
-}
-
 function TodoForm() {
   const route = useRoute();
   const isEditing = route?.params?.isEditing ?? false;
@@ -16,10 +12,13 @@ function TodoForm() {
 
   const [title, updateTitle] = useState('');
   const [description, updateDescription] = useState('');
+  const [showTitleError, setShowTitleError] = useState(false);
+  const [showDescriptionError, setShowDescriptionError] = useState(false);
 
   const dispatch = useDispatch();
   const navigator = useNavigation();
 
+  const mainAction = isEditing ? updateTodoItem : addTodoItem;
   const buttonTitle = isEditing ? 'update item' : 'add item';
 
   useLayoutEffect(() => {
@@ -40,12 +39,19 @@ function TodoForm() {
   }
 
   function updateTodoItem() {
+    if (!validateInputs()) {
+      return;
+    }
+
     const updatedItem: Todo = {...item, title: title, description: description};
     dispatch(updateTodo(updatedItem));
     popToMainScreen();
   }
 
   function addTodoItem() {
+    if (!validateInputs()) {
+      return;
+    }
     const item = createTodo(title, description);
     dispatch(addTodo(item));
     popToMainScreen();
@@ -56,7 +62,19 @@ function TodoForm() {
     popToMainScreen();
   }
 
-  const mainAction = isEditing ? updateTodoItem : addTodoItem;
+  function validateInputs() {
+    let isValid = true;
+    if (title.trim() === '') {
+      setShowTitleError(true);
+      isValid = false;
+    }
+    if (description.trim() === '') {
+      setShowDescriptionError(true);
+      isValid = false;
+    }
+
+    return isValid;
+  }
 
   return (
     <View style={styles.container}>
@@ -65,18 +83,34 @@ function TodoForm() {
         <TextInput
           style={styles.textInput}
           value={title}
-          onChangeText={updateTitle}
+          onChangeText={text => {
+            updateTitle(text);
+            setShowTitleError(false);
+          }}
         />
+        {showTitleError && (
+          <Text style={styles.errorText}>
+            Title is Empty, please fill the field
+          </Text>
+        )}
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Description</Text>
         <TextInput
           style={[styles.textInput, styles.multilineInput]}
           value={description}
-          onChangeText={updateDescription}
+          onChangeText={text => {
+            updateDescription(text);
+            setShowDescriptionError(false);
+          }}
           multiline
           numberOfLines={4}
         />
+        {showDescriptionError && (
+          <Text style={styles.errorText}>
+            Description is Empty, please fill the field
+          </Text>
+        )}
       </View>
       <Button title={buttonTitle} onPress={mainAction} />
       {isEditing && <Button title="Delete item" onPress={deleteItem} />}
@@ -111,5 +145,8 @@ const styles = StyleSheet.create({
   multilineInput: {
     height: '60%',
     textAlignVertical: 'top',
+  },
+  errorText: {
+    color: 'red',
   },
 });
