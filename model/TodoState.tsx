@@ -14,11 +14,11 @@ const todosSlice = createSlice({
   initialState: initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<Todo>) => {
-      console.log('before pushing: ', state.todos);
-
       state.todos.push(action.payload);
-
-      console.log('after pushing: ', state.todos);
+    },
+    removeTodo: (state, action: PayloadAction<number>) => {
+      // remove action
+      state.todos.filter(todo => todo.id !== action.payload);
     },
     // add reducers
   },

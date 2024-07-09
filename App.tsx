@@ -1,17 +1,11 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import 'react-native-gesture-handler';
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
   Button,
   SafeAreaView,
   StatusBar,
-  StyleSheet, //
+  StyleSheet,
   Text,
   useColorScheme,
   View,
@@ -21,6 +15,11 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import MainScreen from './screens/MainScreen';
 import {Provider} from 'react-redux';
 import {todoStore} from './store/store';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import TodoForm from './components/TodoForm';
+
+const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -31,9 +30,12 @@ function App(): React.JSX.Element {
 
   return (
     <Provider store={todoStore}>
-      <View style={styles.container}>
-        <MainScreen />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen component={MainScreen} name="Main Screen" />
+          <Stack.Screen component={TodoForm} name="Todo" />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }
