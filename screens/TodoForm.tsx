@@ -78,42 +78,48 @@ function TodoForm() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Title</Text>
-        <TextInput
-          style={styles.textInput}
-          value={title}
-          onChangeText={text => {
-            updateTitle(text);
-            setShowTitleError(false);
-          }}
-        />
-        {showTitleError && (
-          <Text style={styles.errorText}>
-            Title is Empty, please fill the field
-          </Text>
+      <View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Title</Text>
+          <TextInput
+            style={styles.textInput}
+            value={title}
+            onChangeText={text => {
+              updateTitle(text);
+              setShowTitleError(false);
+            }}
+          />
+          {showTitleError && (
+            <Text style={styles.errorText}>
+              Title is Empty, please fill the field
+            </Text>
+          )}
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Description</Text>
+          <TextInput
+            style={[styles.textInput, styles.multilineInput]}
+            value={description}
+            onChangeText={text => {
+              updateDescription(text);
+              setShowDescriptionError(false);
+            }}
+            multiline
+            numberOfLines={4}
+          />
+          {showDescriptionError && (
+            <Text style={styles.errorText}>
+              Description is Empty, please fill the field
+            </Text>
+          )}
+        </View>
+      </View>
+      <View style={styles.buttonsContainer}>
+        <Button title={buttonTitle} onPress={mainAction} color={'black'} />
+        {isEditing && (
+          <Button title="Delete item" onPress={deleteItem} color={'black'} />
         )}
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Description</Text>
-        <TextInput
-          style={[styles.textInput, styles.multilineInput]}
-          value={description}
-          onChangeText={text => {
-            updateDescription(text);
-            setShowDescriptionError(false);
-          }}
-          multiline
-          numberOfLines={4}
-        />
-        {showDescriptionError && (
-          <Text style={styles.errorText}>
-            Description is Empty, please fill the field
-          </Text>
-        )}
-      </View>
-      <Button title={buttonTitle} onPress={mainAction} />
-      {isEditing && <Button title="Delete item" onPress={deleteItem} />}
     </View>
   );
 }
@@ -125,6 +131,8 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#f8f8f8',
     flex: 1,
+    justifyContent: 'space-between',
+    paddingBottom: 32,
   },
   inputContainer: {
     marginBottom: 20,
@@ -148,5 +156,10 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
 });

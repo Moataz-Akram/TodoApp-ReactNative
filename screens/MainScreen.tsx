@@ -5,14 +5,9 @@ import {useNavigation} from '@react-navigation/native';
 function MainScreen() {
   const navigator = useNavigation();
 
-  function addTodoItem() {
-    navigator.navigate('Todo');
-  }
-
   return (
     <View style={styles.container}>
       <TodoList />
-      <Button title="Add todo" onPress={addTodoItem} />
     </View>
   );
 }
@@ -25,7 +20,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: '#ff2314',
+    backgroundColor: '#CCCCCC',
     paddingBottom: 20,
   },
 });

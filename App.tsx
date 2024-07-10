@@ -32,16 +32,33 @@ function App(): React.JSX.Element {
     <Provider store={todoStore}>
       <NavigationContainer>
         <Stack.Navigator
-        // screenOptions={{
-        //   headerRight: () => {
-        //     return <Button title="add item" />;
-        //   },
-        // }}
-        >
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#858585',
+            },
+            headerTintColor: 'white',
+          }}>
           <Stack.Screen
             component={MainScreen}
             name="Main Screen"
-            options={{title: 'Todo List'}}
+            options={({navigation}) => ({
+              title: 'Todo List',
+              headerRight: () => {
+                const navigateToAddItem = () => {
+                  navigation.navigate('Todo');
+                };
+
+                return (
+                  <View>
+                    <Button
+                      title="add item"
+                      onPress={navigateToAddItem}
+                      color={'black'}
+                    />
+                  </View>
+                );
+              },
+            })}
           />
           <Stack.Screen component={TodoForm} name="Todo" />
         </Stack.Navigator>
